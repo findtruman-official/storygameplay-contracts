@@ -7,30 +7,24 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/cryptography/MerkleProofUpgradeable.sol";
 
-contract FTT is
+contract ClaimableToken is
     Initializable,
     ERC20Upgradeable,
     OwnableUpgradeable,
     UUPSUpgradeable
 {
-    // merkle tree root
+
     bytes32 public merkleRoot;
 
     mapping(bytes32 => bool) public usedMerkleLeaf;
 
-    mapping(address => mapping(uint32 => bool)) public claimableTokens;
-
-    function initialize(string memory name, string memory symbol)
+    function initialize()
         public
         initializer
     {
-        __ERC20_init(name, symbol);
+        __ERC20_init("FindTruman Test Token", "FTT");
         __Ownable_init();
         __UUPSUpgradeable_init();
-    }
-
-    function mint(address to, uint256 amount) public onlyOwner {
-        _mint(to, amount);
     }
 
     function setMerkleRoot(bytes32 _merkleRoot) public onlyOwner {
